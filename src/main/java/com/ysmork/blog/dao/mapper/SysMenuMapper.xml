@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysmork.blog.dao.SysMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ysmork.blog.entity.SysMenu">
+        <id column="menu_id" property="menuId" />
+        <result column="menu_name" property="menuName" />
+        <result column="parent_id" property="parentId" />
+        <result column="order_num" property="orderNum" />
+        <result column="router_name" property="routerName" />
+        <result column="menu_type" property="menuType" />
+        <result column="status" property="status" />
+        <result column="perms" property="perms" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        menu_id, menu_name, parent_id, order_num, router_name, menu_type, status, perms, create_time, update_time, remark
+    </sql>
+
+    <select id="selectPerms" resultType="java.lang.String">
+        SELECT menu.perms FROM sys_menu menu
+        LEFT JOIN sys_user_role_menu user_role_menu ON user_role_menu.menu_id = menu.menu_id
+        LEFT JOIN sys_user users ON user_role_menu.user_id = users.id
+        WHERE users.id = #{id}
+    </select>
+
+</mapper>
