@@ -8,5 +8,7 @@ package com.ysmork.blog.framework.web.entity;
  * @date 2020/9/22 22:21
  */
 public class DictDataConstants {
-    public static final Integer NORMAL_STATUS = 1;
+    public static final int NORMAL_STATUS = 1;
+
+    public static final String FAST_FDS_GROUP = "group1";
 }

@@ -167,7 +167,7 @@ public class FastDfsUtil {
 //        inputStream.close();
 
         //test delete
-        delete("group1", "M00/00/00/rB4eal958PiALXyRAABDAftEZXY750_big.png");
+        delete("group1", "M00/00/02/rB4eal-K8hWAF7QHAAAIgCDGpFQ649.jpg");
 
     }
 }

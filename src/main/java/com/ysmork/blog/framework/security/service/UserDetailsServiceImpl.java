@@ -7,8 +7,10 @@ import com.ysmork.blog.service.SysUserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,6 +20,7 @@ import java.util.Set;
  * @description:
  * @date 2020/9/22 22:12
  */
+@Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Resource
@@ -36,7 +39,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private UserDetails createLoginUser(SysUser sysUser){
-        Set<String> perms = sysMenuMapper.selectPerms (sysUser.getId ());
+//        Set<String> perms = sysMenuMapper.selectPerms (sysUser.getId ());
+        Set<String> perms = new HashSet<> ();
         return new LoginUser (sysUser,perms);
     }
 }

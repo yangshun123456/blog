@@ -1,5 +1,6 @@
-package com.rz.iot.bpo.common.utils;
+package com.ysmork.blog.common.util;
 
+import com.ysmork.blog.framework.security.LoginUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 public class SecurityUtils
 {
-
 
 
     /**
@@ -59,7 +59,23 @@ public class SecurityUtils
     }
 
 
+    /**
+     * 获取用户
+     **/
+    public static LoginUser getLoginUser()
+    {
+        try
+        {
+            return (LoginUser) getAuthentication().getPrincipal();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException ("获取用户信息异常");
+        }
+    }
 
-
+    public static void main(String[] args) {
+        System.out.println (encryptPassword("123456"));
+    }
 
 }

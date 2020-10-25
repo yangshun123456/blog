@@ -33,4 +33,12 @@ public class Result<T> {
     public static<T> Result success(T t){
         return new Result<> (20000,t,"success");
     }
+
+    public static<T> Result requestParamError(T t){
+        return new Result<> (50000,t,"error");
+    }
+
+    public static<T> Result error(T t){
+        return new Result<> (45000,t,"error");
+    }
 }

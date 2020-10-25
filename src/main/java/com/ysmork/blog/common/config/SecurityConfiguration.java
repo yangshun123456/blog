@@ -4,6 +4,7 @@ import com.ysmork.blog.framework.security.filter.JWTAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -57,6 +58,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Resource
     private JWTAuthorizationFilter authenticationTokenFilter;
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     /**
      * 身份认证接口
      */
@@ -114,7 +122,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 验证码captchaImage 允许匿名访问
-                .antMatchers("/user/login", "/user/createCaptcha","/minaPersonCenter/login").anonymous()
+                .antMatchers("/user/login", "/user/captcha","/minaPersonCenter/login").anonymous()
                 .antMatchers(
                         HttpMethod.GET,
                         "/static/**",
