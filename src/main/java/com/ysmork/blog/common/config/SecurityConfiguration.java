@@ -1,6 +1,7 @@
 package com.ysmork.blog.common.config;
 
 import com.ysmork.blog.framework.security.filter.JWTAuthorizationFilter;
+import com.ysmork.blog.framework.security.handle.AuthenticationEntryPointImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -41,11 +42,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private UserDetailsService userDetailsService;
 
-//    /**
-//     * 认证失败处理类
-//     */
-//    @Resource
-//    private AuthenticationEntryPointImpl unauthorizedHandler;
+    /**
+     * 认证失败处理类
+     */
+    @Resource
+    private AuthenticationEntryPointImpl unauthorizedHandler;
 
 //    /**
 //     * 退出处理类
@@ -116,7 +117,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // CRSF禁用，因为不使用session
                 .csrf().disable()
                 // 认证失败处理类
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 // 基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求

@@ -1,4 +1,4 @@
-package com.rz.iot.bpo.common.utils;
+package com.ysmork.blog.common.util;
 
 /**
  * 处理并记录日志文件

@@ -1,10 +1,13 @@
 package com.ysmork.blog.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -12,7 +15,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author YangShun
- * @since 2020-09-22
+ * @since 2020-10-29
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -23,6 +26,7 @@ public class SysUser extends Model<SysUser> {
     /**
      * 用户ID
      */
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -34,6 +38,46 @@ public class SysUser extends Model<SysUser> {
      * 密码
      */
     private String password;
+
+    /**
+     * 真实姓名
+     */
+    private String relname;
+
+    /**
+     * 身份证号
+     */
+    private String idCard;
+
+    /**
+     * 手机号
+     */
+    private String phone;
+
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
+     * 昵称
+     */
+    private String nickname;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 头像url
+     */
+    private String url;
+
+    /**
+     * 处罚ID
+     */
+    private Integer punish;
 
     /**
      * 状态（1：正常  9：删除）
@@ -54,6 +98,10 @@ public class SysUser extends Model<SysUser> {
     @Override
     protected Serializable pkVal() {
         return this.id;
+    }
+
+    public SysUser(String username) {
+        this.username = username;
     }
 
 }

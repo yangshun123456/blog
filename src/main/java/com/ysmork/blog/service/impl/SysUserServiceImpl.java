@@ -1,13 +1,17 @@
 package com.ysmork.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ysmork.blog.common.util.PageUtils;
 import com.ysmork.blog.dao.SysUserMapper;
 import com.ysmork.blog.entity.SysUser;
+import com.ysmork.blog.entity.param.UserSelectParam;
 import com.ysmork.blog.service.SysUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -28,5 +32,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         QueryWrapper<SysUser> wrapper = new QueryWrapper<> ();
         wrapper.eq ("username",username);
         return getOne (wrapper);
+    }
+
+    @Override
+    public List<SysUser> findAll(UserSelectParam param) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<> ();
+        wrapper.likeRight (param.getUsername () !=null,"username",param.getUsername ())
+                .eq (param.getStatus ()!=null,"status",param.getStatus ());
+        Page<SysUser> page = sysUserMapper.selectPage (PageUtils.getPage (), wrapper);
+        return page.getRecords ();
     }
 }

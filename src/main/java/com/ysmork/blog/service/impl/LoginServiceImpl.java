@@ -2,9 +2,12 @@ package com.ysmork.blog.service.impl;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ShearCaptcha;
+import com.ysmork.blog.common.model.ResultConstants;
 import com.ysmork.blog.common.util.FastDfsUtil;
 import com.ysmork.blog.common.util.RedisCache;
 import com.ysmork.blog.common.util.StringUtils;
+import com.ysmork.blog.common.util.SystemUtils;
+import com.ysmork.blog.entity.SysUser;
 import com.ysmork.blog.entity.param.UserParam;
 import com.ysmork.blog.framework.security.LoginUser;
 import com.ysmork.blog.framework.security.service.TokenService;
@@ -13,6 +16,7 @@ import com.ysmork.blog.framework.web.entity.FastDFSFile;
 import com.ysmork.blog.framework.web.entity.Result;
 import com.ysmork.blog.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,6 +52,9 @@ public class LoginServiceImpl implements LoginService {
     @Resource
     private TokenService tokenService;
 
+    @Resource
+    private SystemUtils systemUtils;
+
     @Override
     public Result login(UserParam param) {
         if (StringUtils.isAnyEmpty(
@@ -58,11 +65,12 @@ public class LoginServiceImpl implements LoginService {
         )) {
             return Result.requestParamError("参数不对");
         }
+
         //验证验证码
-        String cacheObject = redisCache.getCacheObject (param.getCaptchaKey ()).toString ();
+        String cacheObject = redisCache.getCacheObject (param.getCaptchaKey ());
         if(!param.getCaptcha ().equalsIgnoreCase (cacheObject)){
             deleteFile (param.getCaptchaKey ());
-            return Result.error ("验证码错误");
+            return Result.error (ResultConstants.LOGIN_CAPTCHA_ERROR.getCode (),"验证码错误");
         }else {
             deleteFile (param.getCaptchaKey ());
         }
@@ -74,11 +82,15 @@ public class LoginServiceImpl implements LoginService {
             authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken (param.getUsername(), param.getPassword()));
         }catch (BadCredentialsException exception){
+            systemUtils.recordLoginLog (new SysUser (param.getUsername ()),2,null);
             return Result.error ("用户或密码错误");
         } catch (Exception e){
             e.printStackTrace ();
+            systemUtils.recordLoginLog (new SysUser (param.getUsername ()),2,null);
         }
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        loginUser.setLoginTime (System.currentTimeMillis ());
+        systemUtils.recordLoginLog (loginUser.getSysUser (),1,null);
         // 生成token
         String token = tokenService.createToken(loginUser);
 
@@ -138,7 +150,8 @@ public class LoginServiceImpl implements LoginService {
         return null;
     }
 
-    private void deleteFile(String key){
+    @Async
+    public void deleteFile(String key){
         if(StringUtils.isNotEmpty (key)) {
             FastDfsUtil.delete (DictDataConstants.FAST_FDS_GROUP, key);
             Object cacheObject1 = redisCache.getCacheObject (key);

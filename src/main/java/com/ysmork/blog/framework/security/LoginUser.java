@@ -77,6 +77,10 @@ public class LoginUser implements UserDetails {
         this.permissions = permissions;
     }
 
+    public LoginUser(){
+
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

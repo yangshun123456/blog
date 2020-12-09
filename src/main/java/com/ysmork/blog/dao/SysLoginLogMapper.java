@@ -1,6 +1,6 @@
 package com.ysmork.blog.dao;
 
-import com.ysmork.blog.entity.SysUser;
+import com.ysmork.blog.entity.SysLoginLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author YangShun
- * @since 2020-10-29
+ * @since 2020-10-25
  */
-public interface SysUserMapper extends BaseMapper<SysUser> {
+public interface SysLoginLogMapper extends BaseMapper<SysLoginLog> {
 
 }

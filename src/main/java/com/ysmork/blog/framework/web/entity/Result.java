@@ -41,4 +41,9 @@ public class Result<T> {
     public static<T> Result error(T t){
         return new Result<> (45000,t,"error");
     }
+
+    public static<T> Result error(Integer code,T t){
+        return new Result<> (code,t,"error");
+    }
+
 }

@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/10/4 20:41
  */
 @Component
+@SuppressWarnings(value = { "unchecked", "rawtypes" })
 public class RedisCache {
 
     private final Long LOCKTIMEOUT = 30000L;

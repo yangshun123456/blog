@@ -2,6 +2,9 @@ package com.ysmork.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ysmork.blog.entity.SysUser;
+import com.ysmork.blog.entity.param.UserSelectParam;
+
+import java.util.List;
 
 /**
  * <p>
@@ -18,4 +21,7 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     SysUser selectByUserName(String username);
+
+
+    List<SysUser> findAll(UserSelectParam param);
 }
