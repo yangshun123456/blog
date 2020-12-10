@@ -75,6 +75,6 @@ logging:
 token:
   secret: c83adb0b44eb4692
   header: Token
-  expireTime: 30
+  expireTime: 300000
 
 

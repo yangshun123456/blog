@@ -67,6 +67,11 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
         <!--apache-->
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -184,9 +189,9 @@
         </dependency>
 <!--        fastdfs-client 文件服务器-->
         <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>fastfds-demo</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>net.oschina.zcx7878</groupId>
+            <artifactId>fastdfs-client-java</artifactId>
+            <version>1.27.0.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>ch.qos.logback</groupId>
@@ -222,11 +227,11 @@
         </dependency>
 
         <!-- 获取系统信息 -->
-<!--        <dependency>-->
-<!--            <groupId>com.github.oshi</groupId>-->
-<!--            <artifactId>oshi-core</artifactId>-->
-<!--            <version>${oshi.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>${oshi.version}</version>
+        </dependency>
     </dependencies>
 
 
