@@ -104,4 +104,6 @@ public class SysUser extends Model<SysUser> {
         this.username = username;
     }
 
+    public SysUser(){}
+
 }

@@ -34,12 +34,21 @@ public class Result<T> {
         return new Result<> (20000,t,"success");
     }
 
+    public static Result success(){
+        return new Result<> (20000,null,"success");
+    }
+
+
     public static<T> Result requestParamError(T t){
         return new Result<> (50000,t,"error");
     }
 
     public static<T> Result error(T t){
         return new Result<> (45000,t,"error");
+    }
+
+    public static<T> Result error(){
+        return new Result<> (45000,null,"error");
     }
 
     public static<T> Result error(Integer code,T t){

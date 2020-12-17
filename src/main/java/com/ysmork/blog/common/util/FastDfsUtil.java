@@ -1,11 +1,15 @@
 package com.ysmork.blog.common.util;
 
 import com.ysmork.blog.framework.web.entity.FastDFSFile;
+import com.ysmork.blog.framework.web.entity.Result;
+import lombok.SneakyThrows;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -73,11 +77,74 @@ public class FastDfsUtil {
             map.put ("path",strings[1]);
             //访问路径
             map.put ("relPath","http://"+hostString+":"+g_tracker_http_port+"/"+strings[0]+"/"+strings[1]);
+
             return map;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 上传
+     *
+     * @param multipartFile
+     * @return
+     */
+    @SneakyThrows
+    public static Map<String,String> upload(MultipartFile multipartFile) {
+        if(multipartFile == null || multipartFile.getOriginalFilename () == null){
+            throw new RuntimeException ("未上传文件");
+        }
+        FastDFSFile file = new FastDFSFile ();
+        Map<String,String> map = new HashMap<> (4);
+        //文件名
+        file.setName (multipartFile.getOriginalFilename ().split ("\\.")[0]);
+        //作者
+        file.setAuthor (SecurityUtils.getLoginUser ().getUsername ());
+        //后缀
+        file.setExt (multipartFile.getOriginalFilename ().split ("\\.")[1]);
+        //获取文件流转化字节
+        InputStream inputStream = multipartFile.getInputStream ();
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        byte[] buffer = new byte[4096];
+        int n = 0;
+        while (-1 != (n = inputStream.read(buffer))) {
+            output.write(buffer, 0, n);
+        }
+        //文件字节
+        file.setContent (output.toByteArray ());
+        TrackerServer trackerServer = getTrackerServer();
+        StorageClient storageClient = new StorageClient(trackerServer, null);
+
+        //参数1 字节数组
+        //参数2 扩展名(不带点)
+        //参数3 元数据( 文件的大小,文件的作者,文件的创建时间戳)
+        //byte cmd, String group_name, String local_filename, String file_ext_name, NameValuePair[] meta_list
+        NameValuePair[] meta_list = new NameValuePair[]{
+                new NameValuePair("Author", file.getAuthor()),
+                new NameValuePair("Name", file.getName())
+        };
+
+        String[] strings = storageClient.upload_file(file.getContent(), file.getExt(), meta_list);
+        /**
+         *  strings[0]==group1  strings[1]=M00/00/00/1.jpg
+         * <ul><li>results[0]: the group name to store the file</li></ul>
+         * <ul><li>results[1]: the new created filename</li></ul>
+         */
+        String hostString = trackerServer.getInetSocketAddress().getHostString();
+        int g_tracker_http_port = ClientGlobal.getG_tracker_http_port();
+        //http://192.168.71.128:8080/group1/M00/00/00/wKhHgF87dTqAZk6kAAFJbAv-xZI615.jpg
+
+        //用于删除的路径
+        map.put ("path",strings[1]);
+        //访问路径
+        map.put ("relPath","http://"+hostString+":"+g_tracker_http_port+"/"+strings[0]+"/"+strings[1]);
+        //文件名
+        map.put ("name",file.getName () + "." + file.getExt ());
+        //文件大小
+        map.put ("size",String.valueOf (multipartFile.getSize ()));
+        return map;
     }
 
     /**
