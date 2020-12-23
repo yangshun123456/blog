@@ -2,16 +2,17 @@ package com.ysmork.blog;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication
+/**
+ * @author yangshun
+ */
+@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 @MapperScan("com.ysmork.blog.dao")
 @EnableAsync
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 @EnableScheduling
 public class BlogApplication {
 

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ysmork.blog.common.util.PageUtils;
+import com.ysmork.blog.common.util.StringUtils;
 import com.ysmork.blog.dao.SysUserMapper;
 import com.ysmork.blog.entity.SysUser;
 import com.ysmork.blog.entity.param.UserSelectParam;
@@ -37,8 +38,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public List<SysUser> findAll(UserSelectParam param) {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<> ();
-        wrapper.likeRight (param.getUsername () !=null,"username",param.getUsername ())
-                .eq (param.getStatus ()!=null,"status",param.getStatus ());
+        wrapper.likeRight (StringUtils.isNotBlank(param.getUsername()),"username",param.getUsername ())
+                .eq (param.getStatus() != null,"status",param.getStatus ());
         Page<SysUser> page = sysUserMapper.selectPage (PageUtils.getPage (), wrapper);
         return page.getRecords ();
     }
