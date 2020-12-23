@@ -1,4 +1,4 @@
-package com.ysmork.blog.framework.web.entity;
+package com.ysmork.blog.common.model;
 
 /**
  * @author yangshun

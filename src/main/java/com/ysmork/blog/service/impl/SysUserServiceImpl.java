@@ -8,6 +8,7 @@ import com.ysmork.blog.common.util.StringUtils;
 import com.ysmork.blog.dao.SysUserMapper;
 import com.ysmork.blog.entity.SysUser;
 import com.ysmork.blog.entity.param.UserSelectParam;
+import com.ysmork.blog.common.model.DictDataConstants;
 import com.ysmork.blog.service.SysUserService;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public SysUser selectByUserName(String username) {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<> ();
         wrapper.eq ("username",username);
+        wrapper.eq("status", DictDataConstants.NORMAL_STATUS);
         return getOne (wrapper);
     }
 

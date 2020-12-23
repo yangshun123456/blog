@@ -11,7 +11,7 @@ import com.ysmork.blog.entity.SysUser;
 import com.ysmork.blog.entity.param.UserParam;
 import com.ysmork.blog.framework.security.LoginUser;
 import com.ysmork.blog.framework.security.service.TokenService;
-import com.ysmork.blog.framework.web.entity.DictDataConstants;
+import com.ysmork.blog.common.model.DictDataConstants;
 import com.ysmork.blog.framework.web.entity.FastDFSFile;
 import com.ysmork.blog.framework.web.entity.Result;
 import com.ysmork.blog.service.LoginService;

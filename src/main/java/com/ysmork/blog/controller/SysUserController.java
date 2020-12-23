@@ -2,11 +2,10 @@ package com.ysmork.blog.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ysmork.blog.common.model.server.Sys;
 import com.ysmork.blog.common.util.SecurityUtils;
 import com.ysmork.blog.entity.SysUser;
 import com.ysmork.blog.entity.param.UserSelectParam;
-import com.ysmork.blog.framework.web.entity.DictDataConstants;
+import com.ysmork.blog.common.model.DictDataConstants;
 import com.ysmork.blog.framework.web.entity.Result;
 import com.ysmork.blog.service.SysUserService;
 import org.springframework.transaction.annotation.Transactional;
