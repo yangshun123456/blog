@@ -11,6 +11,7 @@
         <result column="router_name" property="routerName" />
         <result column="menu_type" property="menuType" />
         <result column="status" property="status" />
+        <result column="ico_url" property="icoUrl" />
         <result column="perms" property="perms" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
@@ -19,14 +20,25 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        menu_id, menu_name, parent_id, order_num, router_name, menu_type, status, perms, create_time, update_time, remark
+        menu_id, menu_name, parent_id, order_num, router_name, menu_type, status, ico_url, perms, create_time, update_time, remark
     </sql>
 
-    <select id="selectPerms" resultType="java.lang.String">
-        SELECT menu.perms FROM sys_menu menu
-        LEFT JOIN sys_user_role_menu user_role_menu ON user_role_menu.menu_id = menu.menu_id
-        LEFT JOIN sys_user users ON user_role_menu.user_id = users.id
-        WHERE users.id = #{id}
+    <!-- 通用查询结果列 -->
+    <sql id="Column_List">
+        menu.menu_id, menu.menu_name, menu.parent_id, menu.order_num,
+        menu.router_name, menu.menu_type, menu.status, menu.ico_url,
+        menu.perms, menu.create_time, menu.update_time, menu.remark
+    </sql>
+
+    <select id="getPermission" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Column_List"/>
+        FROM
+            sys_menu menu
+            LEFT JOIN sys_user_role_menu rel ON rel.menu_id = menu.menu_id
+        WHERE
+            rel.user_id = ${userId}
+            AND menu.STATUS = ${@com.ysmork.blog.common.model.DictDataConstants@NORMAL_STATUS}
     </select>
 
 </mapper>

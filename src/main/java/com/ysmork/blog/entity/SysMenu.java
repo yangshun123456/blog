@@ -1,12 +1,16 @@
 package com.ysmork.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -14,7 +18,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author YangShun
- * @since 2020-09-22
+ * @since 2020-12-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -59,6 +63,11 @@ public class SysMenu extends Model<SysMenu> {
     private Integer status;
 
     /**
+     * 图标
+     */
+    private String icoUrl;
+
+    /**
      * 权限标识
      */
     private String perms;
@@ -66,17 +75,25 @@ public class SysMenu extends Model<SysMenu> {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8" )
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private LocalDateTime updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8" )
+    private Date updateTime;
 
     /**
      * 备注
      */
     private String remark;
+
+    /**
+     * 子节点
+     */
+    @TableField(exist = false)
+    private List<SysMenu> children;
 
 
     @Override

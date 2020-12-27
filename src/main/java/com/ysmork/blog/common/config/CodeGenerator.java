@@ -80,7 +80,7 @@ public class CodeGenerator {
 //                .setService("service")
 //                .setController("controller")
                 .setEntity("entity")
-                .setXml("dao/mapper");//设置xml文件的目录
+                .setXml("classpath:/mapper");//设置xml文件的目录
         TemplateConfig tc = new TemplateConfig ();
         tc.setController ("");
         tc.setService ("");

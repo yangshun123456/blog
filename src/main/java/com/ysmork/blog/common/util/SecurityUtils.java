@@ -74,6 +74,16 @@ public class SecurityUtils
         }
     }
 
+    /**
+     * 获取用户ID
+     **/
+    public static Integer getUserId()
+    {
+        return getLoginUser().getSysUser().getId();
+    }
+
+
+
     public static void main(String[] args) {
         System.out.println (encryptPassword("123456"));
     }
