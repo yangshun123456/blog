@@ -19,9 +19,10 @@ public interface SysMenuService extends IService<SysMenu> {
     /**
      * 获取用户权限
      * @param userId 用户ID
+     * @param menuId 菜单ID
      * @return 用户权限
      */
-    List<SysMenu> getPermission(Integer userId);
+    List<SysMenu> getPermission(Integer menuId,Integer userId);
 
     /**
      * 获取用户权限
@@ -29,6 +30,12 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return 用户权限
      */
     List<SysMenu> findAll(MenuParam param);
+
+    /**
+     * 级联关闭下级菜单
+     * @param menuId 菜单ID
+     */
+    void closeDown(Integer menuId);
 
 
 }

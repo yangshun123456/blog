@@ -1,14 +1,14 @@
 package com.ysmork.blog.controller;
 
 import com.ysmork.blog.common.util.SecurityUtils;
+import com.ysmork.blog.entity.SysMenu;
 import com.ysmork.blog.entity.param.MenuParam;
 import com.ysmork.blog.framework.web.entity.Result;
 import com.ysmork.blog.service.SysMenuService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -37,12 +37,27 @@ public class MenuController {
 
     /**
      * 获取用户权限
+     * @param menuId
      * @return 用户权限
      */
     @GetMapping("getPermission")
-    public Result getPermission(){
+    public Result getPermission(Integer menuId){
         Integer userId = SecurityUtils.getUserId();
-        return Result.success(sysMenuService.getPermission(userId));
+        List<SysMenu> permission = sysMenuService.getPermission (menuId,userId);
+        return Result.success(permission);
     }
+
+    /**
+     * 新增/修改
+     * @param sysMenu
+     * @return 用户权限
+     */
+    @PostMapping("save")
+    public Result save(@RequestBody SysMenu sysMenu){
+        sysMenuService.saveOrUpdate (sysMenu);
+        sysMenuService.closeDown(sysMenu.getMenuId ());
+        return Result.success();
+    }
+
 
 }

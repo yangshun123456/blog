@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -93,7 +94,7 @@ public class SysMenu extends Model<SysMenu> {
      * 子节点
      */
     @TableField(exist = false)
-    private List<SysMenu> children;
+    private List<SysMenu> children = new ArrayList<> ();
 
 
     @Override

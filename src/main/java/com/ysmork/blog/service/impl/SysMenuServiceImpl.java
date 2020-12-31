@@ -1,10 +1,10 @@
 package com.ysmork.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ysmork.blog.common.model.Constants;
 import com.ysmork.blog.common.model.DictDataConstants;
+import com.ysmork.blog.common.util.StringUtils;
 import com.ysmork.blog.dao.SysMenuMapper;
 import com.ysmork.blog.entity.SysMenu;
 import com.ysmork.blog.entity.param.MenuParam;
@@ -30,9 +30,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private SysMenuMapper sysMenuMapper;
 
     @Override
-    public List<SysMenu> getPermission(Integer userId) {
-        List<SysMenu> permission = sysMenuMapper.getPermission(userId);
-        List<SysMenu> treeMenu = getTreeMenu(permission, Constants.MENU_TOP_ID);
+    public List<SysMenu> getPermission(Integer menuId,Integer userId) {
+        List<SysMenu> permission = sysMenuMapper.getPermission (userId);
+        List<SysMenu> treeMenu = getTreeMenu (permission, Constants.MENU_TOP_ID);
+        if(menuId != null && !menuId.equals (0)) {
+            SysMenu parentTree = getParentTree (treeMenu, menuId);
+            treeMenu.clear ();
+            treeMenu.add (parentTree);
+        }
         return treeMenu;
     }
 
@@ -43,6 +48,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .likeRight(StringUtils.isNotBlank(param.getMenuName()),"menu_name",param.getMenuName())
                 .eq(param.getStatus() != null,"status",param.getStatus()));
         return getTreeMenu(permission, Constants.MENU_TOP_ID);
+    }
+
+    @Override
+    public void closeDown(Integer menuId) {
+        List<SysMenu> menus = findAll (new MenuParam ());
+        for (SysMenu menu : menus) {
+            if(menu.getMenuId ().equals (menuId)){
+                //级联设置下属菜单为禁用
+                closeDownMenu(menu);
+            }
+        }
     }
 
     /**
@@ -61,5 +77,39 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
         }
         return dataList;
+    }
+
+    /**
+     * 获取此父级ID的树结构的菜单权限
+     * @param menus 树结构菜单权限列表
+     * @param parentId 父级id
+     * @return 树状结构
+     */
+    private SysMenu getParentTree(List<SysMenu> menus, Integer parentId){
+        if(StringUtils.isEmpty (menus)){
+            return new SysMenu ();
+        }
+        for (SysMenu menu : menus) {
+            if(menu.getMenuId ().equals (parentId)){
+                return menu;
+            }else {
+                SysMenu parentTree = getParentTree (menu.getChildren (), parentId);
+                if(parentTree != null && parentTree.getMenuId () != null){
+                    return parentTree;
+                }
+            }
+        }
+        return new SysMenu ();
+    }
+
+    private void closeDownMenu(SysMenu sysMenu){
+        if(StringUtils.isEmpty (sysMenu.getChildren ())){
+            return;
+        }
+        for (SysMenu child : sysMenu.getChildren ()) {
+            child.setStatus (DictDataConstants.UNUSE_STATUS);
+            closeDownMenu(child);
+        }
+        this.updateBatchById (sysMenu.getChildren ());
     }
 }
