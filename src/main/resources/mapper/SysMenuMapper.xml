@@ -39,6 +39,17 @@
         WHERE
             rel.user_id = ${userId}
             AND menu.STATUS = ${@com.ysmork.blog.common.model.DictDataConstants@NORMAL_STATUS}
+        ORDER BY parent_id, order_num
+    </select>
+    <select id="getUserButtonPerms" resultType="java.lang.String">
+        SELECT
+          menu.perms
+        FROM
+            sys_menu menu
+            LEFT JOIN sys_user_role_menu rel ON rel.menu_id = menu.menu_id
+        WHERE
+            rel.user_id = ${userId}
+            AND menu.STATUS = ${@com.ysmork.blog.common.model.DictDataConstants@NORMAL_STATUS}
     </select>
 
 </mapper>

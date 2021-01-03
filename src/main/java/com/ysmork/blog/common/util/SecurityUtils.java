@@ -1,5 +1,6 @@
 package com.ysmork.blog.common.util;
 
+import com.ysmork.blog.entity.SysRole;
 import com.ysmork.blog.framework.security.LoginUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -80,6 +81,14 @@ public class SecurityUtils
     public static Integer getUserId()
     {
         return getLoginUser().getSysUser().getId();
+    }
+
+    /**
+     * 获取角色
+     **/
+    public static SysRole getRole()
+    {
+        return getLoginUser().getSysRole();
     }
 
 

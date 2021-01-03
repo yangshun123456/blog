@@ -1,5 +1,6 @@
 package com.ysmork.blog.framework.security;
 
+import com.ysmork.blog.entity.SysRole;
 import com.ysmork.blog.entity.SysUser;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -71,14 +72,28 @@ public class LoginUser implements UserDetails {
      */
     private String captcha;
 
+    /**
+     * 角色
+     */
+    private SysRole sysRole;
 
-    public LoginUser(SysUser sysUser,Set<String> permissions){
+
+    public LoginUser(SysUser sysUser, SysRole sysRole, Set<String> permissions){
         this.sysUser = sysUser;
+        this.sysRole = sysRole;
         this.permissions = permissions;
     }
 
     public LoginUser(){
 
+    }
+
+    public SysRole getSysRole() {
+        return sysRole;
+    }
+
+    public void setSysRole(SysRole sysRole) {
+        this.sysRole = sysRole;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.ysmork.blog.entity.SysMenu;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -23,4 +24,10 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      */
     List<SysMenu> getPermission(@Param("userId") Integer userId);
 
+    /**
+     * 获取用户的全部按钮权限
+     * @param userId 用户id
+     * @return 用户权限
+     */
+    Set<String> getUserButtonPerms(@Param("userId") Integer userId);
 }

@@ -1,6 +1,9 @@
 package com.ysmork.blog.framework.security.service;
 
+import com.ysmork.blog.common.model.Constants;
 import com.ysmork.blog.dao.SysMenuMapper;
+import com.ysmork.blog.dao.SysRoleMapper;
+import com.ysmork.blog.entity.SysRole;
 import com.ysmork.blog.entity.SysUser;
 import com.ysmork.blog.framework.security.LoginUser;
 import com.ysmork.blog.service.SysUserService;
@@ -10,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -29,6 +31,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Resource
     private SysMenuMapper sysMenuMapper;
 
+    @Resource
+    private SysRoleMapper sysRoleMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser sysUser = sysUserService.selectByUserName (username);
@@ -39,8 +44,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private UserDetails createLoginUser(SysUser sysUser){
-//        Set<String> perms = sysMenuMapper.selectPerms (sysUser.getId ());
-        Set<String> perms = new HashSet<> ();
-        return new LoginUser (sysUser,perms);
+        SysRole sysRole = sysRoleMapper.selectByUserId(sysUser.getId());
+        Set<String> userButtonPerms = sysMenuMapper.getUserButtonPerms(sysUser.getId());
+        if(Constants.ADMIN_KEY.equals(sysRole.getRoleKey())){
+            userButtonPerms.add(Constants.ALL_PERMISSION);
+        }
+        return new LoginUser (sysUser,sysRole, userButtonPerms);
     }
 }

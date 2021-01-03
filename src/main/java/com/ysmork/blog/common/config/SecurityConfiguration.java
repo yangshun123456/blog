@@ -2,6 +2,7 @@ package com.ysmork.blog.common.config;
 
 import com.ysmork.blog.framework.security.filter.JWTAuthorizationFilter;
 import com.ysmork.blog.framework.security.handle.AuthenticationEntryPointImpl;
+import com.ysmork.blog.framework.security.service.LogoutSuccessHandlerImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -48,11 +49,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private AuthenticationEntryPointImpl unauthorizedHandler;
 
-//    /**
-//     * 退出处理类
-//     */
-//    @Resource
-//    private LogoutSuccessHandlerImpl logoutSuccessHandler;
+    /**
+     * 退出处理类
+     */
+    @Resource
+    private LogoutSuccessHandlerImpl logoutSuccessHandler;
 
     /**
      * token认证过滤器
@@ -139,7 +140,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();
-//        http.logout().logoutUrl("/user/logout").logoutSuccessHandler(logoutSuccessHandler);//登出
+        //登出
+        http.logout().logoutUrl("/user/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加JWT filter
         http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 

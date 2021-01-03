@@ -12,7 +12,27 @@ public class DictDataConstants {
 
     public static final int DELETE_STATUS = 9;
 
-    public static final int UNUSE_STATUS = 2;
+    public static final int UNUSED_STATUS = 2;
 
     public static final String FAST_FDS_GROUP = "group1";
+
+    /**
+     * 禁用type
+     */
+    public static final int UNUSED_TYPE = 1;
+
+    /**
+     * 删除type
+     */
+    public static final int DELETE_TYPE = 2;
+
+    /**
+     * 正常type
+     */
+    public static final int NORMAL_TYPE = 3;
+
+    /**
+     * null 字符串
+     */
+    public static final String NULL = "null";
 }

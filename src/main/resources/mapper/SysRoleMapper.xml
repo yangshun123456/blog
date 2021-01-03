@@ -18,4 +18,17 @@
         id, role_name, role_key, status, remark, create_time, update_time
     </sql>
 
+    <!-- 通用查询结果列 -->
+    <sql id="Column_List">
+        role.id, role.role_name, role.role_key, role.status, role.remark, role.create_time, role.update_time
+    </sql>
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT <include refid="Column_List"/>
+        FROM sys_role role
+        LEFT JOIN sys_user_role_menu rel ON rel.role_id = role.id
+        LEFT JOIN sys_user users ON users.id = rel.user_id
+        WHERE users.id = #{userId}
+        limit 1
+    </select>
+
 </mapper>

@@ -80,4 +80,14 @@ public class Constants {
      */
     public static final Integer MENU_TOP_ID = 0;
 
+    /**
+     * admin角色key
+     */
+    public static final String ADMIN_KEY = "admin";
+
+    /**
+     * 所有权限标识
+     */
+    public static final String ALL_PERMISSION = "*:*";
+
 }

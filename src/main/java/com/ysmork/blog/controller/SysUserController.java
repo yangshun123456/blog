@@ -49,10 +49,10 @@ public class SysUserController {
     @Transactional(rollbackFor = Throwable.class)
     public Result status(Integer userId){
         SysUser sysUser = sysUserService.getById (userId);
-        if(sysUser.getStatus ().equals (DictDataConstants.UNUSE_STATUS)){
+        if(sysUser.getStatus ().equals (DictDataConstants.UNUSED_STATUS)){
             sysUser.setStatus (DictDataConstants.NORMAL_STATUS);
         }else if(sysUser.getStatus ().equals (DictDataConstants.NORMAL_STATUS)){
-            sysUser.setStatus (DictDataConstants.UNUSE_STATUS);
+            sysUser.setStatus (DictDataConstants.UNUSED_STATUS);
         }
         sysUserService.updateById (sysUser);
         return Result.success ();

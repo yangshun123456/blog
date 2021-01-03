@@ -34,8 +34,8 @@ public interface SysMenuService extends IService<SysMenu> {
     /**
      * 级联关闭下级菜单
      * @param menuId 菜单ID
+     * @param type 1:禁用 2：删除 3:启用
      */
-    void closeDown(Integer menuId);
-
+    void closeDown(Integer menuId,Integer type);
 
 }

@@ -37,5 +37,10 @@ public class LoginController {
         return loginService.getUserDetail (request);
     }
 
+    @GetMapping("logout")
+    public Result logout(String key) {
+        return Result.success();
+    }
+
 
 }
