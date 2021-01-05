@@ -2,6 +2,7 @@ package com.ysmork.blog.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ysmork.blog.common.util.PageUtils;
 import com.ysmork.blog.common.util.SecurityUtils;
 import com.ysmork.blog.entity.SysUser;
 import com.ysmork.blog.entity.param.UserSelectParam;
@@ -36,8 +37,9 @@ public class SysUserController {
      */
     @GetMapping("findAll")
     public Result findAll(UserSelectParam param){
+        PageUtils.startPage ();
         List<SysUser> all = sysUserService.findAll (param);
-        return Result.success (all);
+        return PageUtils.getData (all);
     }
 
     /**

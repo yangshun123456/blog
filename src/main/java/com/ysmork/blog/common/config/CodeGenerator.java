@@ -77,14 +77,14 @@ public class CodeGenerator {
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("com.ysmork.blog")//设置包名的parent
                 .setMapper("dao")
-//                .setService("service")
+                .setService("service")
 //                .setController("controller")
                 .setEntity("entity")
-                .setXml("classpath:/mapper");//设置xml文件的目录
+                .setXml("mapper");//设置xml文件的目录D:\vue_project\ys\blog\src\main\resources\mapper\SysLoginLogMapper.xml
         TemplateConfig tc = new TemplateConfig ();
         tc.setController ("");
-        tc.setService ("");
-        tc.setServiceImpl ("");
+//        tc.setService ("");
+//        tc.setServiceImpl ("");
         //5、整合配置
         AutoGenerator autoGenerator = new AutoGenerator();
         autoGenerator.setGlobalConfig(config)

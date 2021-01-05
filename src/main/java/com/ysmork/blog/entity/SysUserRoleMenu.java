@@ -1,12 +1,11 @@
 package com.ysmork.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.io.Serializable;
 
 /**
  * <p>
@@ -14,7 +13,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author YangShun
- * @since 2020-12-27
+ * @since 2021-01-05
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

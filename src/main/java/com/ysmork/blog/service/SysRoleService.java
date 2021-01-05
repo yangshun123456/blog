@@ -13,4 +13,24 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysRoleService extends IService<SysRole> {
 
+    /**
+     * 删除角色
+     * @param id 角色ID
+     */
+    void delete(Integer id);
+
+    /**
+     * 获取详情
+     * @param id
+     * @return
+     */
+    SysRole detail(Integer id);
+
+    /**
+     * 插入权限
+     * @param sysRole
+     */
+    void savePermission(SysRole sysRole);
+
+
 }

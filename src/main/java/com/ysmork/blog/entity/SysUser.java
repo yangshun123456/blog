@@ -81,6 +81,11 @@ public class SysUser extends Model<SysUser> {
     private Integer punish;
 
     /**
+     * 角色id
+     */
+    private Integer roleId;
+
+    /**
      * 状态（1：正常  9：删除）
      */
     private Integer status;

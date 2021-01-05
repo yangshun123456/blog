@@ -23,5 +23,10 @@ public interface SysUserService extends IService<SysUser> {
     SysUser selectByUserName(String username);
 
 
+    /**
+     * 获取所有用户
+     * @param param
+     * @return
+     */
     List<SysUser> findAll(UserSelectParam param);
 }

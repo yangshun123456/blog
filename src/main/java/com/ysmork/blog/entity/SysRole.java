@@ -1,8 +1,12 @@
 package com.ysmork.blog.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -48,12 +52,19 @@ public class SysRole extends Model<SysRole> {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8" )
     private LocalDateTime createTime;
 
     /**
      * 修改时间
      */
     private LocalDateTime updateTime;
+
+    /**
+     * 菜单权限
+     */
+    @TableField(exist = false)
+    private List<SysMenu> sysMenus;
 
 
     @Override

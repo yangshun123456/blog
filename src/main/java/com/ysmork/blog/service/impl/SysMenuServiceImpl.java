@@ -6,6 +6,7 @@ import com.ysmork.blog.common.model.Constants;
 import com.ysmork.blog.common.model.DictDataConstants;
 import com.ysmork.blog.common.util.SecurityUtils;
 import com.ysmork.blog.common.util.StringUtils;
+import com.ysmork.blog.common.util.TreeUtils;
 import com.ysmork.blog.dao.SysMenuMapper;
 import com.ysmork.blog.entity.SysMenu;
 import com.ysmork.blog.entity.SysRole;
@@ -42,7 +43,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         }else{
             permission = sysMenuMapper.getPermission(userId);
         }
-        List<SysMenu> treeMenu = getTreeMenu (permission, Constants.MENU_TOP_ID);
+        List<SysMenu> treeMenu = TreeUtils.getTreeMenu (permission, Constants.MENU_TOP_ID);
         //传入菜单id为0的为无父级，过滤
         if(menuId != null && !menuId.equals (0)) {
             SysMenu parentTree = getParentTree (treeMenu, menuId);
@@ -59,7 +60,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .likeRight(StringUtils.isNotBlank(param.getMenuName()),"menu_name",param.getMenuName())
                 .eq(param.getStatus() != null,"status",param.getStatus())
                 .orderByAsc("parent_id","order_num"));
-        return getTreeMenu(permission, Constants.MENU_TOP_ID);
+        return TreeUtils.getTreeMenu(permission, Constants.MENU_TOP_ID);
     }
 
     @Override
@@ -71,24 +72,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 closeDownMenu(menu,type);
             }
         }
-    }
-
-    /**
-     * 将菜单权限转换成树结构
-     * @param menus 菜单权限列表
-     * @param parentId 父级id
-     * @return 树状结构
-     */
-    private List<SysMenu> getTreeMenu(List<SysMenu> menus,Integer parentId){
-        List<SysMenu> dataList = new ArrayList<>();
-        for (SysMenu menu : menus) {
-            if(menu.getParentId().equals(parentId)){
-                dataList.add(menu);
-                List<SysMenu> treeMenu = getTreeMenu(menus, menu.getMenuId());
-                menu.setChildren(treeMenu);
-            }
-        }
-        return dataList;
     }
 
     /**

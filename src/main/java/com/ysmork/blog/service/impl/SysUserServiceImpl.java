@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author YangShun
@@ -32,17 +32,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public SysUser selectByUserName(String username) {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<> ();
-        wrapper.eq ("username",username);
-        wrapper.eq("status", DictDataConstants.NORMAL_STATUS);
+        wrapper.eq ("username", username);
+        wrapper.eq ("status", DictDataConstants.NORMAL_STATUS);
         return getOne (wrapper);
     }
 
     @Override
     public List<SysUser> findAll(UserSelectParam param) {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<> ();
-        wrapper.likeRight (StringUtils.isNotBlank(param.getUsername()),"username",param.getUsername ())
-                .eq (param.getStatus() != null,"status",param.getStatus ());
-        Page<SysUser> page = sysUserMapper.selectPage (PageUtils.getPage (), wrapper);
-        return page.getRecords ();
+        wrapper.likeRight (StringUtils.isNotBlank (param.getUsername ()), "username", param.getUsername ())
+                .eq (param.getStatus () != null, "status", param.getStatus ());
+        return sysUserMapper.selectList (wrapper);
     }
 }

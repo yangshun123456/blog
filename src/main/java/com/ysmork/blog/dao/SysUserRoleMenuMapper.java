@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author YangShun
- * @since 2020-12-27
+ * @since 2021-01-05
  */
 public interface SysUserRoleMenuMapper extends BaseMapper<SysUserRoleMenu> {
 

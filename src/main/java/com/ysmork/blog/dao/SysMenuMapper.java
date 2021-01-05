@@ -30,4 +30,11 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @return 用户权限
      */
     Set<String> getUserButtonPerms(@Param("userId") Integer userId);
+
+    /**
+     * 获取用户权限
+     * @param roleId 用户ID
+     * @return 用户权限
+     */
+    List<SysMenu> getPermissionByRoleId(@Param("roleId") Integer roleId);
 }
