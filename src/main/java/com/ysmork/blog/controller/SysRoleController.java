@@ -6,21 +6,17 @@ import com.ysmork.blog.common.annonation.Lock;
 import com.ysmork.blog.common.model.DictDataConstants;
 import com.ysmork.blog.common.util.PageUtils;
 import com.ysmork.blog.common.util.StringUtils;
-import com.ysmork.blog.dao.SysUserRoleMenuMapper;
-import com.ysmork.blog.entity.SysMenu;
 import com.ysmork.blog.entity.SysRole;
-import com.ysmork.blog.entity.SysUserRoleMenu;
+import com.ysmork.blog.entity.param.MenuParam;
 import com.ysmork.blog.entity.param.RoleParam;
 import com.ysmork.blog.framework.web.entity.Result;
+import com.ysmork.blog.service.SysMenuService;
+import com.ysmork.blog.service.SysRoleMenuService;
 import com.ysmork.blog.service.SysRoleService;
-import com.ysmork.blog.service.SysUserRoleMenuService;
-import org.apache.ibatis.annotations.Param;
-import org.apache.velocity.runtime.directive.contrib.For;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +36,7 @@ public class SysRoleController {
     private SysRoleService sysRoleService;
 
     @Resource
-    private SysUserRoleMenuService sysUserRoleMenuService;
+    private SysMenuService sysMenuService;
 
     @GetMapping("findAll")
     public Result findAll(RoleParam roleParam) {
@@ -91,6 +87,17 @@ public class SysRoleController {
             this.delete (id);
         }
         return Result.success ();
+    }
+
+    /**
+     * 查询所有菜单
+     * @return 菜单树状列表
+     */
+    @GetMapping("findAllMenu")
+    public Result findAllMenu(){
+        MenuParam param = new MenuParam ();
+        param.setStatus (DictDataConstants.NORMAL_STATUS);
+        return Result.success(sysMenuService.findAll(param));
     }
 
 

@@ -35,10 +35,10 @@
             <include refid="Column_List"/>
         FROM
             sys_menu menu
-            LEFT JOIN sys_user_role_menu rel ON rel.menu_id = menu.menu_id
-            LEFT JOIN sys_user users ON users.role_id = rel.role_id
+            LEFT JOIN sys_role_menu rel_role ON rel_role.menu_id = menu.menu_id
+            LEFT JOIN sys_user_role rel_user ON rel_user.role_id = rel_role.role_id
         WHERE
-            users.id = ${userId}
+            rel_user.id = ${userId}
             AND menu.STATUS = ${@com.ysmork.blog.common.model.DictDataConstants@NORMAL_STATUS}
         ORDER BY parent_id, order_num
     </select>
@@ -47,10 +47,10 @@
           menu.perms
         FROM
             sys_menu menu
-            LEFT JOIN sys_user_role_menu rel ON rel.menu_id = menu.menu_id
-            LEFT JOIN sys_user users ON users.role_id = rel.role_id
+            LEFT JOIN sys_role_menu rel_role ON rel_role.menu_id = menu.menu_id
+            LEFT JOIN sys_user_role rel_user ON rel_user.role_id = rel_role.role_id
         WHERE
-            users.id = ${userId}
+            rel_user.id = ${userId}
             AND menu.STATUS = ${@com.ysmork.blog.common.model.DictDataConstants@NORMAL_STATUS}
         GROUP BY menu.menu_id
     </select>
@@ -59,8 +59,10 @@
             <include refid="Column_List"/>
         FROM
             sys_menu menu
-            LEFT JOIN sys_user_role_menu rel ON rel.menu_id = menu.menu_id
-            LEFT JOIN sys_role role ON role.id = rel.role_id
+            LEFT JOIN sys_role_menu rel_role ON rel_role.menu_id = menu.menu_id
+            LEFT JOIN sys_user_role rel_user ON rel_user.role_id = rel_role.role_id
+        WHERE
+            rel_role.role_id = #{roleId}
         GROUP BY
             menu.menu_id
     </select>

@@ -13,11 +13,11 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author YangShun
- * @since 2021-01-05
+ * @since 2021-01-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SysUserRoleMenu extends Model<SysUserRoleMenu> {
+public class SysRoleMenu extends Model<SysRoleMenu> {
 
     private static final long serialVersionUID=1L;
 

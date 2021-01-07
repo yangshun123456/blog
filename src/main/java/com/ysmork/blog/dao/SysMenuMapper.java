@@ -33,7 +33,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     /**
      * 获取用户权限
-     * @param roleId 用户ID
+     * @param roleId 角色ID
      * @return 用户权限
      */
     List<SysMenu> getPermissionByRoleId(@Param("roleId") Integer roleId);

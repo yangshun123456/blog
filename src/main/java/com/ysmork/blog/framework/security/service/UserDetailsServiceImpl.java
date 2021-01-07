@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -45,9 +46,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserDetails createLoginUser(SysUser sysUser){
         SysRole sysRole = sysRoleMapper.selectByUserId(sysUser.getId());
-        Set<String> userButtonPerms = sysMenuMapper.getUserButtonPerms(sysUser.getId());
-        if(Constants.ADMIN_KEY.equals(sysRole.getRoleKey())){
-            userButtonPerms.add(Constants.ALL_PERMISSION);
+        Set<String> userButtonPerms = new HashSet<> ();
+        if(sysRole != null){
+            userButtonPerms = sysMenuMapper.getUserButtonPerms(sysUser.getId());
+            if(Constants.ADMIN_KEY.equals(sysRole.getRoleKey())){
+                userButtonPerms.add(Constants.ALL_PERMISSION);
+            }
         }
         return new LoginUser (sysUser,sysRole, userButtonPerms);
     }

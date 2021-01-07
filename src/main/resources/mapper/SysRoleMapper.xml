@@ -23,12 +23,15 @@
         role.id, role.role_name, role.role_key, role.status, role.remark, role.create_time, role.update_time
     </sql>
     <select id="selectByUserId" resultMap="BaseResultMap">
-        SELECT <include refid="Column_List"/>
-        FROM sys_role role
-        LEFT JOIN sys_user_role_menu rel ON rel.role_id = role.id
-        LEFT JOIN sys_user users ON users.id = rel.user_id
-        WHERE users.id = #{userId}
-        limit 1
+        SELECT
+            <include refid="Column_List"/>
+        FROM
+            sys_role role
+            LEFT JOIN sys_user_role user_rel ON user_rel.role_id = role.id
+            LEFT JOIN sys_user users ON users.id = user_rel.user_id
+        WHERE
+            users.id = #{userId}
+        LIMIT 1
     </select>
 
 </mapper>

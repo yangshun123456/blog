@@ -1,6 +1,6 @@
 package com.ysmork.blog.dao;
 
-import com.ysmork.blog.entity.SysUserRoleMenu;
+import com.ysmork.blog.entity.SysRoleMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author YangShun
- * @since 2021-01-05
+ * @since 2021-01-06
  */
-public interface SysUserRoleMenuMapper extends BaseMapper<SysUserRoleMenu> {
+public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
 }

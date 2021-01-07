@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -53,12 +55,14 @@ public class SysRole extends Model<SysRole> {
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8" )
-    private LocalDateTime createTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date createTime;
 
     /**
      * 修改时间
      */
-    private LocalDateTime updateTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date updateTime;
 
     /**
      * 菜单权限
