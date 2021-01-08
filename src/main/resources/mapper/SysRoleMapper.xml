@@ -34,4 +34,33 @@
         LIMIT 1
     </select>
 
+    <select id="selectUseUsersByRoleId" resultType="com.ysmork.blog.entity.SysUser">
+        SELECT
+            users.id as id,
+            users.username as username
+        FROM
+            sys_user users
+            LEFT JOIN sys_user_role rel ON rel.user_id = users.id
+        WHERE
+            users.STATUS != ${@com.ysmork.blog.common.model.DictDataConstants@DELETE_STATUS}
+            AND rel.id IS NOT NULL
+            AND rel.role_id = #{roleId}
+        GROUP BY
+            users.id
+    </select>
+
+    <select id="selectUsersByRoleId" resultType="com.ysmork.blog.entity.SysUser">
+        SELECT
+            users.id as id,
+            users.username as username
+        FROM
+            sys_user users
+            LEFT JOIN sys_user_role rel ON rel.user_id = users.id
+        WHERE
+            users.STATUS != ${@com.ysmork.blog.common.model.DictDataConstants@DELETE_STATUS}
+            AND rel.id IS NULL
+        GROUP BY
+            users.id
+    </select>
+
 </mapper>

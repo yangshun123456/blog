@@ -9,23 +9,21 @@ import com.ysmork.blog.common.util.TreeUtils;
 import com.ysmork.blog.dao.SysMenuMapper;
 import com.ysmork.blog.dao.SysRoleMapper;
 import com.ysmork.blog.dao.SysRoleMenuMapper;
-import com.ysmork.blog.entity.SysMenu;
-import com.ysmork.blog.entity.SysRole;
-import com.ysmork.blog.entity.SysRoleMenu;
+import com.ysmork.blog.entity.*;
+import com.ysmork.blog.entity.param.RoleUserParam;
 import com.ysmork.blog.service.SysRoleMenuService;
 import com.ysmork.blog.service.SysRoleService;
+import com.ysmork.blog.service.SysUserRoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author YangShun
@@ -44,6 +42,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private SysMenuMapper sysMenuMapper;
 
     @Resource
+    private SysUserRoleService sysUserRoleService;
+
+    @Resource
     private SysRoleMenuService sysRoleMenuService;
 
     @Override
@@ -51,7 +52,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public void delete(Integer id) {
         //删除关联关系
         sysRoleMenuMapper.delete (new QueryWrapper<SysRoleMenu> ()
-                .eq ("role_id",id));
+                .eq ("role_id", id));
         //删除角色信息
         SysRole sysRole = new SysRole ();
         sysRole.setId (id);
@@ -75,7 +76,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         List<SysMenu> sysMenus = sysRole.getSysMenus ();
         //删除原有的
         sysRoleMenuMapper.delete (new QueryWrapper<SysRoleMenu> ()
-                .eq ("role_id",sysRole.getId ()));
+                .eq ("role_id", sysRole.getId ()));
         //添加选择的
         Set<SysRoleMenu> menus = new HashSet<> ();
 //        getRelation(sysMenus,lists,sysRole.getId ());
@@ -88,16 +89,48 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         sysRoleMenuService.saveBatch (menus);
     }
 
+    @Override
+    public Map<String, List<SysUser>> getUsers(Integer id) {
+        //获取已分配的
+        List<SysUser> usedSysUsers = sysRoleMapper.selectUseUsersByRoleId (id);
+        //获取未分配的
+        List<SysUser> sysUsers = sysRoleMapper.selectUsersByRoleId (id);
+
+        Map<String, List<SysUser>> map = new HashMap<> (2);
+        map.put ("used", usedSysUsers);
+        map.put ("unUse", sysUsers);
+        return map;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public void setUsers(RoleUserParam param) {
+        //删除之前的关联
+        sysUserRoleService.remove (new QueryWrapper<SysUserRole> ()
+                .eq ("role_id",param.getRoleId ()));
+        //插入之后的
+        if(StringUtils.isNotEmpty (param.getIds ())){
+            List<SysUserRole> list = new ArrayList<> ();
+            for (Integer id : param.getIds ()) {
+                SysUserRole sysUserRole = new SysUserRole ();
+                sysUserRole.setRoleId (param.getRoleId ());
+                sysUserRole.setUserId (id);
+                list.add (sysUserRole);
+            }
+            sysUserRoleService.saveBatch (list);
+        }
+    }
 
 
     /**
      * 将树状菜单转封装成菜单-角色关系
+     *
      * @param sysMenus
      * @param lists
      * @param roleId
      */
-    private void getRelation(List<SysMenu> sysMenus ,Set<SysRoleMenu> lists,Integer roleId){
-        if(StringUtils.isEmpty (sysMenus)){
+    private void getRelation(List<SysMenu> sysMenus, Set<SysRoleMenu> lists, Integer roleId) {
+        if (StringUtils.isEmpty (sysMenus)) {
             return;
         }
         for (SysMenu sysMenu : sysMenus) {
@@ -105,7 +138,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             sysUserRoleMenu.setMenuId (sysMenu.getMenuId ());
             sysUserRoleMenu.setRoleId (roleId);
             lists.add (sysUserRoleMenu);
-            getRelation (sysMenu.getChildren (),lists,roleId);
+            getRelation (sysMenu.getChildren (), lists, roleId);
         }
     }
 }

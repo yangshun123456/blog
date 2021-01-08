@@ -38,7 +38,7 @@
             LEFT JOIN sys_role_menu rel_role ON rel_role.menu_id = menu.menu_id
             LEFT JOIN sys_user_role rel_user ON rel_user.role_id = rel_role.role_id
         WHERE
-            rel_user.id = ${userId}
+            rel_user.user_id = ${userId}
             AND menu.STATUS = ${@com.ysmork.blog.common.model.DictDataConstants@NORMAL_STATUS}
         ORDER BY parent_id, order_num
     </select>
@@ -50,7 +50,7 @@
             LEFT JOIN sys_role_menu rel_role ON rel_role.menu_id = menu.menu_id
             LEFT JOIN sys_user_role rel_user ON rel_user.role_id = rel_role.role_id
         WHERE
-            rel_user.id = ${userId}
+            rel_user.user_id = ${userId}
             AND menu.STATUS = ${@com.ysmork.blog.common.model.DictDataConstants@NORMAL_STATUS}
         GROUP BY menu.menu_id
     </select>

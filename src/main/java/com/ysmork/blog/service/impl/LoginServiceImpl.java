@@ -130,7 +130,15 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Result getUserDetail(HttpServletRequest request) {
         LoginUser loginUser = tokenService.getLoginUser (request);
-        return Result.success (loginUser.getSysUser ());
+        loginUser.getSysUser ().setPassword ("");
+        loginUser.getSysUser ().setIdCard ("");
+        loginUser.getSysUser ().setEmail ("");
+        loginUser.getSysUser ().setPhone ("");
+        LoginUser loginUsers = new LoginUser ();
+
+        loginUsers.setSysUser (loginUser.getSysUser ());
+        loginUsers.setPermissions (loginUser.getPermissions ());
+        return Result.success (loginUsers);
     }
 
     /**

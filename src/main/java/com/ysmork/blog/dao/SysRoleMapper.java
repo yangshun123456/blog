@@ -2,7 +2,11 @@ package com.ysmork.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ysmork.blog.entity.SysRole;
+import com.ysmork.blog.entity.SysUser;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -19,4 +23,18 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @return
      */
     SysRole selectByUserId(@Param("userId") Integer userId);
+
+    /**
+     * 通过角色id获取已分配用户
+     * @param roleId
+     * @return
+     */
+    List<SysUser> selectUseUsersByRoleId(Integer roleId);
+
+    /**
+     * 通过角色id获取未分配用户
+     * @param roleId
+     * @return
+     */
+    List<SysUser> selectUsersByRoleId(Integer roleId);
 }

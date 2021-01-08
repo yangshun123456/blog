@@ -9,6 +9,7 @@ import com.ysmork.blog.common.util.StringUtils;
 import com.ysmork.blog.entity.SysRole;
 import com.ysmork.blog.entity.param.MenuParam;
 import com.ysmork.blog.entity.param.RoleParam;
+import com.ysmork.blog.entity.param.RoleUserParam;
 import com.ysmork.blog.framework.web.entity.Result;
 import com.ysmork.blog.service.SysMenuService;
 import com.ysmork.blog.service.SysRoleMenuService;
@@ -98,6 +99,25 @@ public class SysRoleController {
         MenuParam param = new MenuParam ();
         param.setStatus (DictDataConstants.NORMAL_STATUS);
         return Result.success(sysMenuService.findAll(param));
+    }
+
+    /**
+     * 获取已分配和未分配用户
+     * @return 菜单树状列表
+     */
+    @GetMapping("getUsers")
+    public Result getUsers(Integer id){
+        return Result.success(sysRoleService.getUsers(id));
+    }
+
+    /**
+     * 提交分配用户
+     * @return
+     */
+    @PostMapping("setUsers")
+    public Result setUsers(@RequestBody RoleUserParam param){
+        sysRoleService.setUsers(param);
+        return Result.success();
     }
 
 
