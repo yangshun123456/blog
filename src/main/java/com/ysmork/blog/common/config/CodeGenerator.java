@@ -46,7 +46,7 @@ public class CodeGenerator {
                 .setAuthor("YangShun")//设置作者
                 .setOutputDir(projectPath + "/src/main/java")//生成路径(一般在此项目的src/main/java下)
                 .setFileOverride(true)//第二次生成会把第一次生成的覆盖掉
-                .setOpen(true)//生成完毕后是否自动打开输出目录
+                .setOpen(false)//生成完毕后是否自动打开输出目录
                 //.setSwagger2(true)//实体属性 Swagger2 注解
                 //.setIdType(IdType.AUTO)//主键策略
                 .setServiceName("%sService")//生成的service接口名字首字母是否为I，这样设置就没有I
@@ -57,9 +57,9 @@ public class CodeGenerator {
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)//数据库类型
                 .setDriverName("com.mysql.cj.jdbc.Driver")
-                .setUrl("jdbc:mysql://47.115.188.221:3306/ys_blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8")
-                .setUsername("root")
-                .setPassword("123456");
+                .setUrl("jdbc:mysql://192.168.3.41:3306/iot-cloud?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8")
+                .setUsername("Rz")
+                .setPassword("Rzwl@123a!");
         //3、策略配置
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig.setCapitalMode(true)//开启全局大写命名
@@ -77,13 +77,13 @@ public class CodeGenerator {
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("com.ysmork.blog")//设置包名的parent
                 .setMapper("dao")
-                .setService("service")
+//                .setService("service")
 //                .setController("controller")
                 .setEntity("entity")
                 .setXml("mapper");//设置xml文件的目录D:\vue_project\ys\blog\src\main\resources\mapper\SysLoginLogMapper.xml
         TemplateConfig tc = new TemplateConfig ();
         tc.setController ("");
-//        tc.setService ("");
+        tc.setService ("");
 //        tc.setServiceImpl ("");
         //5、整合配置
         AutoGenerator autoGenerator = new AutoGenerator();

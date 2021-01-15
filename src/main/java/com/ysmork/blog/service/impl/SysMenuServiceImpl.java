@@ -38,7 +38,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> permission = null;
         if(Constants.ADMIN_KEY.equals(sysRole.getRoleKey())) {
             permission = sysMenuMapper.selectList(new QueryWrapper<SysMenu>()
-                    .ne("status", DictDataConstants.DELETE_STATUS)
+                    .eq("status", DictDataConstants.NORMAL_STATUS)
                     .orderByAsc("parent_id","order_num"));
         }else{
             permission = sysMenuMapper.getPermission(userId);
