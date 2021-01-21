@@ -39,6 +39,7 @@ public class DictionaryController {
 
     /**
      * 字典类型 对外接口
+     *
      * @param typeName
      * @param status
      * @return
@@ -60,13 +61,16 @@ public class DictionaryController {
     }
 
     @GetMapping("delete")
-    public Result delete(Integer id) {
-        sysDictTypeService.removeById (id);
+    public Result delete(Long id) {
+        SysDictType sysDictType = new SysDictType ();
+        sysDictType.setDictId (id);
+        sysDictType.setStatus (DictDataConstants.DELETE_STATUS);
+        sysDictTypeService.updateById (sysDictType);
         return Result.success ();
     }
 
     @PostMapping("save")
-    @Lock (className = SysDictType.class, onlyName = "dictName", idName = "dictId")
+    @Lock(className = SysDictType.class, onlyName = "dictName", idName = "dictId")
     public Result save(@RequestBody SysDictType sysDictType) {
         sysDictType.setCreateBy (SecurityUtils.getLoginUser ().getUsername ());
         sysDictTypeService.saveOrUpdate (sysDictType);
@@ -77,9 +81,9 @@ public class DictionaryController {
     @Transactional(rollbackFor = Throwable.class)
     public Result status(Integer id) {
         SysDictType sysDictType = sysDictTypeService.getById (id);
-        if(sysDictType.getStatus () == DictDataConstants.UNUSED_STATUS) {
+        if (sysDictType.getStatus () == DictDataConstants.UNUSED_STATUS) {
             sysDictType.setStatus (DictDataConstants.UNUSED_STATUS);
-        }else if(sysDictType.getStatus () == DictDataConstants.NORMAL_STATUS){
+        } else if (sysDictType.getStatus () == DictDataConstants.NORMAL_STATUS) {
             sysDictType.setStatus (DictDataConstants.NORMAL_STATUS);
         }
         //修改状态为禁用/启用
@@ -87,9 +91,18 @@ public class DictionaryController {
         return Result.success ();
     }
 
+    @GetMapping("getDictType")
+    public Result getDictType() {
+        List<SysDictType> list = sysDictTypeService.list (new QueryWrapper<SysDictType> ()
+                .select ("dict_type", "dict_name")
+                .eq ("status", DictDataConstants.NORMAL_STATUS));
+        return Result.success (list);
+    }
+
 
     /**
      * 字典详情对外接口
+     *
      * @param param
      * @return
      */
@@ -117,7 +130,7 @@ public class DictionaryController {
     }
 
     @PostMapping("saveData")
-    @Lock (className = SysDictData.class, onlyName = "dictLabel", idName = "dictCode")
+    @Lock(className = SysDictData.class, onlyName = "dictLabel", idName = "dictCode")
     public Result saveData(@RequestBody SysDictData sysDictData) {
         sysDictDataService.saveOrUpdate (sysDictData);
         return Result.success ();

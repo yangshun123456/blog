@@ -57,9 +57,9 @@ public class CodeGenerator {
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)//数据库类型
                 .setDriverName("com.mysql.cj.jdbc.Driver")
-                .setUrl("jdbc:mysql://192.168.3.41:3306/iot-cloud?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8")
-                .setUsername("Rz")
-                .setPassword("Rzwl@123a!");
+                .setUrl("jdbc:mysql://47.115.188.221:3306/ys_blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8")
+                .setUsername("root")
+                .setPassword("123456");
         //3、策略配置
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig.setCapitalMode(true)//开启全局大写命名
@@ -77,13 +77,13 @@ public class CodeGenerator {
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("com.ysmork.blog")//设置包名的parent
                 .setMapper("dao")
-//                .setService("service")
+                .setService("service")
 //                .setController("controller")
                 .setEntity("entity")
                 .setXml("mapper");//设置xml文件的目录D:\vue_project\ys\blog\src\main\resources\mapper\SysLoginLogMapper.xml
         TemplateConfig tc = new TemplateConfig ();
         tc.setController ("");
-        tc.setService ("");
+//        tc.setService ("");
 //        tc.setServiceImpl ("");
         //5、整合配置
         AutoGenerator autoGenerator = new AutoGenerator();
